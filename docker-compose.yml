@@ -1,0 +1,26 @@
+services:
+  api:
+    image: node:22.9.0-alpine3.19
+    working_dir: /home/node/app
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - SECRET_KEY=${SECRET_KEY_JWT}
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/home/node/app
+    command: yarn start:dev
+
+  mongo:
+    image: mongo:8.0.3-noble
+    ports:
+      - "27017:${DB_PORT}"
+    volumes:
+      - ./data_mongo:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${DB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${DB_PASS}
