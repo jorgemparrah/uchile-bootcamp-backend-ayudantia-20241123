@@ -8,6 +8,11 @@ services:
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
       - DB_PASS=${DB_PASS}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASS=${MYSQL_PASS}
+      - MYSQL_NAME=${MYSQL_NAME}
       - SECRET_KEY=${SECRET_KEY_JWT}
     ports:
       - "3000:3000"
@@ -24,3 +29,13 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${DB_USER}
       - MONGO_INITDB_ROOT_PASSWORD=${DB_PASS}
+
+  mysql:
+    image: mysql:8.0.3
+    ports:
+      - "3306:${MYSQL_PORT}"
+    volumes:
+      - ./data_mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASS}
+      - MYSQL_DATABASE=${MYSQL_NAME}

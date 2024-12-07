@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { UsuarioModule } from './usuario/usuario.module';
+import { TransaccionModule } from './transaccion/transaccion.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,7 +14,7 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config, {
-    include: [ UsuarioModule ]
+    include: [ UsuarioModule, TransaccionModule ]
   });
   SwaggerModule.setup('api', app, document, {
     swaggerOptions: {
