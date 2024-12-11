@@ -1,19 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, UseGuards } from '@nestjs/common';
-import { UsuarioService } from './usuario.service';
-import { CreateUsuarioDto } from './dto/create-usuario.dto';
-import { UpdateUsuarioDto } from './dto/update-usuario.dto';
-import { GetUsuarioDto } from './dto/get-usuario.dto';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, UsePipes } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
+import { RolesAutorizados } from '../seguridad/decorator/rol.decorator';
+import { JwtGuard } from '../seguridad/guard/jwt.guard';
+import { ValidarRolGuard } from '../seguridad/guard/validar-rol.guard';
+import { ActualizarEstadoUsuarioDto } from './dto/actualizar-estado-usuario.dto';
+import { CreateUsuarioDto } from './dto/create-usuario.dto';
+import { GetUsuarioDto } from './dto/get-usuario.dto';
+import { JwtDto } from './dto/jwt.dto';
+import { LoginUsuarioDto } from './dto/login-usuario.dto';
+import { Rol } from './enum/rol.enum';
 import { HashPipe } from './pipe/hash.pipe';
 import { UsuarioExistePipe } from './pipe/usuario-existe.pipe';
-import { LoginUsuarioDto } from './dto/login-usuario.dto';
-import { JwtDto } from './dto/jwt.dto';
 import { UsuarioNoExistePipe } from './pipe/usuario-no-existe.pipe';
-import { ActualizarEstadoUsuarioDto } from './dto/actualizar-estado-usuario.dto';
-import { JwtGuard } from 'src/seguridad/guard/jwt.guard';
-import { Rol } from './enum/rol.enum';
-import { RolesAutorizados } from 'src/seguridad/decorator/rol.decorator';
-import { ValidarRolGuard } from 'src/seguridad/guard/validar-rol.guard';
+import { UsuarioService } from './usuario.service';
 
 @Controller('usuario')
 export class UsuarioController {
@@ -30,11 +29,12 @@ export class UsuarioController {
   @ApiBody({ type: LoginUsuarioDto })
   @Post("login")
   async login(@Body() loginUsuarioDto: LoginUsuarioDto) : Promise<JwtDto> {
-    return await this.usuarioService.login(loginUsuarioDto);
+    const result = await this.usuarioService.login(loginUsuarioDto);
+    return result;
   }
 
   @Get()
-  findAll() {
+  findAll() : any[] {
     return this.usuarioService.findAll();
   }
 

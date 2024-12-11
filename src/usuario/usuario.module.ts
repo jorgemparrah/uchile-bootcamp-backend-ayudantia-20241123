@@ -5,6 +5,7 @@ import { Usuario, UsuarioSchema } from './entities/usuario.entity';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SeguridadModule } from 'src/seguridad/seguridad.module';
 import { JwtModule } from '@nestjs/jwt';
+import { UsuarioRepository } from './usuario.repository';
 
 @Module({
   imports: [
@@ -19,6 +20,6 @@ import { JwtModule } from '@nestjs/jwt';
     })
   ],
   controllers: [UsuarioController],
-  providers: [UsuarioService],
+  providers: [UsuarioService, UsuarioRepository],
 })
 export class UsuarioModule {}

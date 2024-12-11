@@ -1,5 +1,5 @@
 import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
-import { HashingService } from 'src/seguridad/service/hashing.service';
+import { HashingService } from '../../seguridad/service/hashing.service';
 
 @Injectable()
 export class HashPipe implements PipeTransform {

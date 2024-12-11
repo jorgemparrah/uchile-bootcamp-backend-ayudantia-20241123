@@ -11,6 +11,7 @@ import { Estado } from './enum/estado.enum';
 import { JwtService } from '@nestjs/jwt';
 import e from 'express';
 import { ActualizarEstadoUsuarioDto } from './dto/actualizar-estado-usuario.dto';
+import { UsuarioRepository } from './usuario.repository';
 
 @Injectable()
 export class UsuarioService {
@@ -18,6 +19,7 @@ export class UsuarioService {
   constructor(
     @InjectModel(Usuario.name) private readonly usuarioModel: Model<Usuario>,
     private readonly jwtService: JwtService,
+    private readonly usuarioModelPrueba: UsuarioRepository,
   ) {}
 
   async create(createUsuarioDto: CreateUsuarioDto) : Promise<GetUsuarioDto> {
@@ -35,7 +37,7 @@ export class UsuarioService {
   }
 
   async login(loginDto: LoginUsuarioDto) : Promise<JwtDto> {
-    const usuario = await this.usuarioModel.findOne({
+    const usuario : Usuario = await this.usuarioModelPrueba.findOne({
       username: loginDto.username
     });
     if (usuario.estado !== Estado.ACTIVO) {
@@ -53,8 +55,8 @@ export class UsuarioService {
     return jwt;
   }
 
-  findAll() {
-    return `This action returns all usuario`;
+  findAll() : any[] {
+    return [];
   }
 
   async findOne(username: string) : Promise<GetUsuarioDto> {
